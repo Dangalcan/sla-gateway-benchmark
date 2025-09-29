@@ -23,7 +23,7 @@ AUTH_LOCATION ?= header
 # Docker-compose files prr proxy (in case that you want to modify)
 DOCKER_COMPOSE_ENVOY ?= proxies/envoy/docker-compose-envoy.yaml
 DOCKER_COMPOSE_HAPROXY ?= proxies/haproxy/docker-compose-haproxy.yaml
-DOCKER_COMPOSE_NGINX ?= proxies/nginx/docker-compose-custom-nginx.yaml
+DOCKER_COMPOSE_NGINX ?= proxies/nginx/docker-compose-nginx.yaml
 DOCKER_COMPOSE_TRAEFIK ?= proxies/traefik/docker-compose-traefik.yaml
 
 
