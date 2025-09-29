@@ -1,0 +1,111 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Ollama API
+  description: Ollama API with SLA for researchers (normal vs premium).
+  contact:
+    name: Isa Group
+    url: http://api:11435
+servers:
+  - url: http://api:11435
+paths:
+  /api/generate:
+    post:
+      summary: Generates text using an Ollama model
+      description: |
+        Sends a prompt to selected Ollama model and retrieves its response.
+      operationId: generateText
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        description: Prompt and model configuration
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateRequest'
+      responses:
+        '200':
+          description: Ollama response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateResponse'
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/tags:
+    get:
+      summary: Lists all available Ollama models
+      description: Retrieves all avaibale models loaded in Ollama.
+      operationId: listModels
+      responses:
+        '200':
+          description: Avaibale model list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: "llama2:13b"
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+  schemas:
+    GenerateRequest:
+      type: object
+      required:
+        - model
+        - prompt
+      properties:
+        model:
+          type: string
+          example: "llama2"
+        prompt:
+          type: string
+          example: "Explain to me relativity theory in 2 simple sentences."
+        options:
+          type: object
+          description: Optiones (inference, top_p, etc.)
+          example:
+            temperature: 0.7
+            top_p: 0.9
+    GenerateResponse:
+      type: object
+      properties:
+        model:
+          type: string
+          example: "llama2"
+        created_at:
+          type: string
+          format: date-time
+        response:
+          type: string
+          example: "Relativity explains how space and time are part of the same structure...."
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

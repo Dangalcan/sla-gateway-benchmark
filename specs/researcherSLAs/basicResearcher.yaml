@@ -1,0 +1,37 @@
+sla4oas: 1.0.0
+context:
+  id: normalResearcher1
+  type: agreement
+  api:
+    $ref: ../researcherLLMOAS.yaml
+  provider: ISAGroup
+  customer: NormalUser S.L
+  apikeys:
+    - normal-sla-apikey1
+    - normal-sla-apikey2
+  validity:
+    from: '2025-01-01T00:00:00+00:00'
+    to: '2026-01-01T00:00:00+00:00'
+metrics:
+  requests:
+    type: integer
+    format: int64
+    description: Number of requests
+plan:
+  name: normal
+  pricing:
+    cost: 0
+    currency: EUR
+    billing: monthly
+  availability: R/00:00:00Z/23:59:59Z
+  rates:
+    /api/generate:
+      post:
+        requests:
+          - max: 1
+            period: minute
+    /api/tags:
+      get:
+        requests:
+          - max: 1
+            period: minute

@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  api:
+    image: megamagolas/mockllama:latest
+    expose:
+      - "11435"
+  proxy:
+    image: nginx:1.23.2
+    depends_on:
+            - api
+    volumes:
+      - ${CFG_PATH}:/etc/nginx/nginx.conf
+    ports:
+     - "80:80"
+    cpus: 2
