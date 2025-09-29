@@ -37,8 +37,14 @@ benchmark_1:
 		exit 1; \
 	fi
 
-	@ echo "Proxy,[basic] GET /pets - 1/s,[basic] POST /pets - 2/m,[basic] GET /pets/id - 3/s,[basic] PUT /pets/id - 4/m,[basic] DELETE /pets/id - 5/s,\
-	[pro] GET /pets - 10/s,[pro] POST /pets - 20/m,[pro] GET /pets/id - 30/s,[pro] PUT /pets/id - 40/m,[pro] DELETE /pets/id - 50/s" > ${CSV_FILE_BMK1}
+# 	@ echo "Proxy,[basic] GET /pets - 1/s,[basic] POST /pets - 2/m,[basic] GET /pets/id - 3/s,[basic] PUT /pets/id - 4/m,[basic] DELETE /pets/id - 5/s,\
+# 	[pro] GET /pets - 10/s,[pro] POST /pets - 20/m,[pro] GET /pets/id - 30/s,[pro] PUT /pets/id - 40/m,[pro] DELETE /pets/id - 50/s" > ${CSV_FILE_BMK1}
+
+	@ node ${SLA_WIZARD_PATH}/scripts/generate_csv_header.js \
+		--sla ${NT_SLAS_PATH} \
+		--test ${NT_TEST_CONFIG} \
+		--out ${CSV_FILE_BMK1}
+
 
 	@ for proxy in ${PROXIES}; do \
 		if [ "$$proxy" = "envoy" ]; then \
